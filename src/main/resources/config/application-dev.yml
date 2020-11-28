@@ -1,0 +1,154 @@
+# ===================================================================
+# Spring Boot configuration for the "dev" profile.
+#
+# This configuration overrides the application.yml file.
+#
+# ===================================================================
+logging: 
+   #日志级别
+   level: 
+      ROOT: debug
+
+spring: 
+   #激活一个或多个配置
+   profiles: 
+      active: dev
+      include: swagger
+   jackson: 
+      #格式化输出
+      serialization.indent_output: true
+      #时区
+      time-zone: GMT+8
+   jpa: 
+      hibername: 
+         #使用@Entity时，控制表结构生成行为，none是什么都不做
+         ddl-auto: none          
+                        
+   liquibase: 
+      #数据库初始化开关
+      enabled: true
+      #初始化脚本路径
+      change-log: classpath:/db/changelog/master.xml
+   datasource: 
+      
+      #数据库驱动
+      driverClassName: com.mysql.cj.jdbc.Driver
+      #数据库连接
+      url: jdbc:mysql://116.62.11.157:3306/test?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&nullCatalogMeansCurrent=true
+      #数据库的名称,biyi-form组件使用
+      db-name: test
+
+                      
+      #数据库连接池
+      type: com.zaxxer.hikari.HikariDataSource
+      #数据库用户名
+      username: root
+      #数据库密码
+      password: root
+      hikari: 
+         #最大连接池数
+         maximumPoolSize: 20
+      #是否自定义配置
+      cachePrepStmts: true
+      #连接池大小
+      prepStmtCacheSize: 250
+      #单条语句最大长度
+      prepStmtCacheSqlLimit: 2048
+      #新版本MySQL支持服务器端准备，是否开启
+      useServerPrepStmts: true
+   #国际化
+   messages: 
+      #配置路径
+      basename: i18n/messages
+      #字符集
+      encoding: UTF-8
+server: 
+   #端口号
+   port: 9000
+
+ctsi: 
+   # CORS is only enabled by default with the "dev" profile, so BrowserSync can access the API
+   cors: 
+      #允许源
+      allowed-origins: "*"
+      #允许的HTTP方法
+      allowed-methods: "*"
+      #允许的字段
+      allowed-headers: "*"
+      #可从请求头中获取的字段
+      exposed-headers: "Authorization,Link,X-Total-Count,Content-Disposition"
+      #允许发送处理COOKIE
+      allow-credentials: true
+      #缓存时间
+      max-age: 1800
+   #允许跨域，多个以逗号分隔
+   corspaths: "/api/**"
+   #新增用户默认密码
+   login-password: ctsi1234
+   log: 
+      #是否启用操作日志
+      operation-log: 
+         enable: false
+      #是否启用登录日志
+      login-log: 
+         enable: false
+   security: 
+      authentication: 
+         jwt: 
+            #token key密钥
+            secret: my-secret-token-to-change-in-production
+            #token失效时间，秒
+            token-validity-in-seconds: 86400
+            #rememberme token失效时间
+            token-validity-in-seconds-for-remember-me: 2592000   
+   captcha: 
+      #验证码KEY策略
+      keyProvider: simpleCaptchaKeyProvider
+      #验证码组件缓存实现，提供两种实现，redis和基于guava的缓存，redis支持集群部署，guava只支持单机使用。可选值：guavaCaptchaCache，redisCaptchaCache
+      cache: guavaCaptchaCache
+   upload:
+      #biyi-form组件使用，作为模板文件上传的根目录，同时也将作为代码生成的临时目录
+      uploadPath: D://tmpfile
+   password-check:
+      #密码过期时间，单位 月
+      expire-months: 3
+      #密码最小长度
+      check-min-length: 8
+      #密码最大长度
+      check-max-length: 20
+      #检查密码包含小写字母
+      check-lowercase: true
+      #检查密码包含大写字母
+      check-uppercase: true
+      #检查密码包含数字
+      check-digit: true
+      #检查密码包含键盘相邻字符
+      check-keyboard: true
+      #检查密码包含特殊字符
+      check-special-character: true
+   login:
+      #密码输错达到次数，锁定用户
+      bad-password-attempts: 5
+      #锁定时间，单位s
+      lockout-time: 3600
+      #记录密码错误缓存实现，提供两种实现，redis和基于guava的缓存，redis支持集群部署，guava只支持单机使用。可选值：guavaLoginCache，redisLoginCache
+      cache: guavaLoginCache
+
+#mybatis配置
+mybatis: 
+   configLocation: classpath:/mybatis-config.xml
+
+pagehelper: 
+   #分页设置
+   helperDialect: mysql
+   reasonable: true
+   supportMethodsArguments: true
+   pageSizeZero: true
+
+management: 
+   health: 
+      redis: 
+         #关闭REDIS健康检查
+         enabled: false
+ 
+     
